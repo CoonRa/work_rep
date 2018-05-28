@@ -106,7 +106,7 @@ public class My_store {
      * @param args the command line arguments
      */
     // Формируем витрину
- public static void main(String[] args) {
+ public static void main(String[] args) throws IllegalAccessException{
     goods[] all_goods = new goods[4];
     all_goods[0] = new goods ( 1, "Клавиатура светящаяся", 500 , 6);
     all_goods[1] = new goods ( 2, "Мышь", 200 , 6); 
@@ -125,13 +125,19 @@ public class My_store {
  
  
  do {
-  System.out.println("1 - Показать товары");
+ System.out.println("1 - Показать товары");
  System.out.println("2 - Показать все заказы");
  System.out.println("3 - Показать заказы с сортировкой по дате");
  System.out.println("4 - Ввести заказ");
  System.out.println("5 - Выйти из магазина");
- what_to_do = Integer.parseInt(JOptionPane.showInputDialog("Выберите действие в магазине")); 
  
+ try{
+ what_to_do = Integer.parseInt(JOptionPane.showInputDialog("Выберите действие в магазине")); 
+ if (what_to_do != 1 && what_to_do != 2 && what_to_do != 3 && what_to_do != 4 && what_to_do != 5)
+ {throw new IllegalAccessException ( "Введен не верный пункт" ) ;}        
+ } catch( IllegalAccessException e )
+ {System.out.println("Вы ввели неверное действие, попробуйте еще раз");
+  continue;}
   switch (what_to_do) 
  { case 5: System.out.println("Работа с магазином закончена");  break;
    case 1: // показываем все товары
