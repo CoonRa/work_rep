@@ -41,18 +41,18 @@ String date;                // дата заказа
 String UserName;            //заказчик
 int delivery;               // статус доставки 0 - доставлен, 1 - доставляется
 GregorianCalendar data;
-goods[] good= new goods[4]; // до 4 наименований товаров
+float cost;                 // стоимость заказа
 
 
 
-public purchases(int id_c, String UserName_c, int delivery_c, GregorianCalendar data_c)
+public purchases(int id_c, String UserName_c, int delivery_c, GregorianCalendar data_c, float cost_c)
 {
 p_id = id_c; 
 UserName = UserName_c;
 delivery = delivery_c;
 data = data_c;
 date = FormatDate(data_c);
-
+cost = cost_c;
 
 }
 // метод выдача даты в удобочитаемом формате
@@ -62,8 +62,7 @@ date = FormatDate(data_c);
   String format = format1.format(c.getTime());
   return format;
   }
- 
- // метод форматирование даты
+  // метод форматирование даты
   public String FormatDate(Calendar c_v){
 
   Calendar c = c_v;
@@ -75,13 +74,10 @@ date = FormatDate(data_c);
 
  void print_order()
 {
- System.out.println ("Заказ №"+ p_id + " Пользователя " + UserName +  " от " + date + " г."); 
+ System.out.println ("Заказ №"+ p_id + " Пользователя " + UserName +  " от " + date + " г. на сумму " + cost); 
 } 
- 
-
- 
+  
 }
-
 
 public class My_store {
     
@@ -104,128 +100,115 @@ public class My_store {
   {return true;}
      
  }
-  
-  
+    
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {JOptionPane.showMessageDialog(null, "Добро пожаловать в магазин \n"  + "Выберите интересующий Вас товар");
-    
-    // Формируем витрину  
-    goods good1 = new goods ( 1, "Клавиатура светящаяся", 500 , 6);   
-    goods good2 = new goods ( 2, "Мышь", 200 , 6); 
-    goods good3 = new goods ( 3, "Монитор 24 дюйма", 8000 , 2); 
-    goods good4 = new goods ( 4, "Блок питания", 100 , 6); 
-    
-
+    // Формируем витрину
+ public static void main(String[] args) throws IllegalAccessException{
     goods[] all_goods = new goods[4];
-        
     all_goods[0] = new goods ( 1, "Клавиатура светящаяся", 500 , 6);
     all_goods[1] = new goods ( 2, "Мышь", 200 , 6); 
     all_goods[2] = new goods ( 3, "Монитор 24 дюйма", 8000 , 2);
     all_goods[3] = new goods ( 4, "Блок питания", 100 , 6);
-
-    // выводим товары
- //   good1.print_good();
- //   good2.print_good();
-  //  good3.print_good();
- //   good4.print_good();
     
    //формируем уже готовые заказы
-   purchases[] MassPurchases = new purchases[10];
-   
-   MassPurchases[0] = new purchases (1,"Васильев Иван Петрович",1,new GregorianCalendar(2017, 1, 1));
-   MassPurchases[1] = new purchases (2,"Царь Иван Васильевич",1,new GregorianCalendar(2017, 6, 25));
-   MassPurchases[2] = new purchases (3,"Иванова Марфа Васильевна",1,new GregorianCalendar(2018, 4, 1));
-   MassPurchases[3] = new purchases (4,"Петров Марф Иванович",1,new GregorianCalendar(2017, 1, 1));
-           
-   purchases purchase1 = new purchases (1,"Васильев Иван Петрович",1,new GregorianCalendar(2017, 1, 1));
-   purchases purchase2 = new purchases (2,"Царь Иван Васильевич",1,new GregorianCalendar(2017, 6, 25));
-   purchases purchase3 = new purchases (3,"Иванова Марфа Васильевна",1,new GregorianCalendar(2018, 4, 1));
-   purchases purchase4 = new purchases (4,"Петров Марф Иванович",1,new GregorianCalendar(2017, 1, 1));
-    
-   
-   // purchase1.print_order();
- //   purchase2.print_order();
- //   purchase3.print_order();
- //   purchase4.print_order();
-    
-   //вывести все товары 
-    try{
-    for (int i = 0; i < all_goods.length; i++) {
-         System.out.println("№" + all_goods[i].id + " "+ all_goods[i].name + " " + all_goods[i].cost + " руб. кол-во на складе - " + all_goods[i].kol);
-    }
+   purchases[] MassPurchases = new purchases[1000];
+   MassPurchases[0] = new purchases (1,"Васильев Иван Петрович",1,new GregorianCalendar(2017, 1, 1), 5000);
+   MassPurchases[1] = new purchases (2,"Царь Иван Васильевич",1,new GregorianCalendar(2017, 6, 25), 500);
+   MassPurchases[2] = new purchases (3,"Иванова Марфа Васильевна",1,new GregorianCalendar(2018, 4, 1), 200);
+   MassPurchases[3] = new purchases (4,"Петров Марф Иванович",1,new GregorianCalendar(2017, 1, 1), 1000);
+
+ //Начинаем диалог  с пользователем
+ int what_to_do =0;
+ 
+ 
+ do {
+ System.out.println("1 - Показать товары");
+ System.out.println("2 - Показать все заказы");
+ System.out.println("3 - Показать заказы с сортировкой по дате");
+ System.out.println("4 - Ввести заказ");
+ System.out.println("5 - Выйти из магазина");
+ 
+ try{
+ what_to_do = Integer.parseInt(JOptionPane.showInputDialog("Выберите действие в магазине")); 
+ if (what_to_do != 1 && what_to_do != 2 && what_to_do != 3 && what_to_do != 4 && what_to_do != 5)
+ {throw new IllegalAccessException ( "Введен не верный пункт" ) ;}        
+ } catch( IllegalAccessException e )
+ {System.out.println("Вы ввели неверное действие, попробуйте еще раз");
+  continue;}
+  switch (what_to_do) 
+ { case 5: System.out.println("Работа с магазином закончена");  break;
+   case 1: // показываем все товары
+ 
+   try{ for (int i = 0; i < all_goods.length; i++) {
+        System.out.println("№" + all_goods[i].id + " "+ all_goods[i].name + " " + all_goods[i].cost + " руб. кол-во на складе - " + all_goods[i].kol);
     } 
-    catch (NullPointerException e){}   
- 
- 
- 
-    // вывести все заказы
+    } 
+    catch (NullPointerException e){}         
+   break;
+   
+   case 2: //Показать все заказы
     try{
     for (int i = 0; i < MassPurchases.length; i++) {
          System.out.println(MassPurchases[i].UserName + " " + MassPurchases[i].date);
     }
     } 
     catch (NullPointerException e){}     
-    
-    // вывести заказы с сортировкой по дате 
-     Calendar sort_condition = getOrdersAfterDate();
+   break;
+   case 3:
+   
+   Calendar sort_condition = getOrdersAfterDate();
       
-     try{ for (int i = 0; i < MassPurchases.length; i++) {
+   try{ for (int i = 0; i < MassPurchases.length; i++) {
          if  (CompareDates(sort_condition, MassPurchases[i].data))
          {  System.out.println(MassPurchases[i].UserName + " " + MassPurchases[i].date);} 
       }
-     } catch (NullPointerException e){}  
-     
-  // ввести заказ 
-   String UserName = JOptionPane.showInputDialog("Введите свое имя");
+     } catch (NullPointerException e){}    
+   break;
+   case 4: 
+   int var=1, j = 1; // переменная ук. выводить диалог 1- выводить/0 - не выводить больше     
+   int input_id, input_kol;
+   float input_cost;
+   float summ = 0;
+   int input_delivery = 1; // признак доставляется - 1, доставлен - 0
+   String UserName = JOptionPane.showInputDialog("Введите свое имя");    
    
+   try{ for (int i = 0; i < all_goods.length; i++) {
+        System.out.println("№" + all_goods[i].id + " "+ all_goods[i].name + " " + all_goods[i].cost + " руб. кол-во на складе - " + all_goods[i].kol);
+    } 
+    } 
+    catch (NullPointerException e){}  
    
-  
-
+   do{
+   input_id=Integer.parseInt(JOptionPane.showInputDialog("Введите номер товара:"));
+   input_kol=Integer.parseInt(JOptionPane.showInputDialog("Введите кол-во товара:"));
    
-   
-   
- /*
-
-// диалог с пользователем 
-int var=1,i=1; // переменная ук. выводить диалог 1- выводить/0 - не выводить больше 
-int input_id, input_kol;
-float input_cost;
-float summ = 0;
-int input_delivery = 1;
-
-// пока пользователь не откажется от добавления товаров - выводить диалог и считать сумму
-do {
-input_id=Integer.parseInt(JOptionPane.showInputDialog("Введите номер товара:"));
-input_kol=Integer.parseInt(JOptionPane.showInputDialog("Введите кол-во товара:"));
-
-switch(input_id)
+   switch(input_id)
 {
-    case 1: input_cost = good1.cost; break; 
-    case 2: input_cost = good2.cost; break;            
-    case 3: input_cost = good3.cost; break;  
-    case 4: input_cost = good4.cost; break;  
+    case 1: input_cost = all_goods[0].cost; break; 
+    case 2: input_cost = all_goods[1].cost; break;            
+    case 3: input_cost = all_goods[2].cost; break;  
+    case 4: input_cost = all_goods[3].cost; break;  
     default: input_cost = 0;
 };
-// создать новую покупку со свойствами ид товара, кол-во, цена и статус доставки
-purchases purchase1 = new purchases(input_id, input_kol, input_cost,  input_delivery );
 
-// ошибка, почему так нельзя присваивать?
-//MyOrder[0] = new purchases(input_id, input_kol, input_cost,  input_delivery );
-
-// Сумма покупки
-summ = summ + purchase1.cost * purchase1.kol*purchase1.delivery;
-
+summ = summ + input_cost * input_kol * input_delivery;
 
 var=Integer.parseInt(JOptionPane.showInputDialog("Хотите что-нибудь ещё проибрести? \n" +"Да - 1 \n" + "Нет - 0"));
-}
-while ( var == 1);
-        
-System.out.println ("Итоговая сумма " + summ + " руб."); 
-*/
-    }
+ }  while ( var == 1);
+   
 
-    }
+   MassPurchases[3 + j] = new purchases (3+j,UserName,1,new GregorianCalendar( ), summ);
+   System.out.println ("Сумма заказа " + summ + " руб."); 
+   j++;
+ break;
+ }
+  
+ } while (what_to_do!= 5);
+ }
+}
+
+   
     
