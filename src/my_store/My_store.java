@@ -182,8 +182,6 @@ public class My_store {
     catch (NullPointerException e){}  
    
    do{
-       
-   
    input_id=Integer.parseInt(JOptionPane.showInputDialog("Введите номер товара:"));
    input_kol=Integer.parseInt(JOptionPane.showInputDialog("Введите кол-во товара:"));
    
@@ -206,12 +204,9 @@ var=Integer.parseInt(JOptionPane.showInputDialog("Хотите что-нибуд
    System.out.println ("Сумма заказа " + summ + " руб."); 
    j++;
  break;
- 
- 
  }
   
  } while (what_to_do!= 5);
-
  }
 }
 
